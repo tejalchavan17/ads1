@@ -1,0 +1,76 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+void traverse(int n);
+struct node
+{
+     int d1,d2,c;
+     struct node *next;
+}*start,*cn,*nn;
+void main()
+{
+     //clrscr();
+     int n,i;
+     int pt=0,dt=0;
+     int p[50];int d[50];
+     
+     printf("\n Enter no. of petrol pump ");
+     scanf("%d",&n);
+     for(i=0;i<n;i++)
+     {
+          printf("\n enter petrol of petrol pump %d ",i);
+          scanf("%d",&p[i]);
+     }
+     for(i=0;i<n;i++)
+     {
+          printf("\n enter distance between petrol pump %d %d",i,i+1);
+          scanf("%d",&d[i]);
+     }
+     for(i=0;i<n;i++)
+     {
+         pt=pt+p[i];
+         dt=dt+d[i];
+     }
+     nn=(struct node *)malloc(sizeof(struct node));
+     nn=start;
+     for(i=0;i<n;i++)
+     {
+          nn->c=i;nn->d1=p[i];nn->d2=d[i];
+          if(i==n-1)
+              break;
+          nn->next=(struct node *)malloc(sizeof(struct node));
+          nn=nn->next;
+     }
+     nn->next=start;
+     if(pt>=dt)
+     {
+          cn=start;
+          traverse(n);
+     }
+     else
+          printf("\n Truck cannot complete the tour because petrol is less then distance");
+     getch();
+}
+void traverse(int n)
+{
+      int m=0,count=0;
+      do
+      {
+         if(cn->d1>=cn->d2)
+         {
+              printf("%d-> \t",cn->c);
+              count++;
+              m=(cn->d1)-(cn->d2);
+              cn=cn->next;
+              cn->d1=m+(cn->d1);
+         }
+         else
+         {
+             printf("%d-> ",cn->c);
+             printf("\n Cannot complete tour from this node");
+             count=0;
+             cn=cn->next;
+         }
+       }while(count!=n+1);
+}
+
